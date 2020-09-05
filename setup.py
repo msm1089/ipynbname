@@ -17,7 +17,7 @@ setup(
     license='MIT',
     keywords='jupyter notebook filename'.split(),
     url='https://github.com/msm1089/mynameis',
-    packages=['mynameis'],
+    packages=setuptools.find_packages(),
     package_data={},
     install_requires=[],
     python_requires='>=3.4, <4',
