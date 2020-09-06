@@ -49,7 +49,7 @@ def name():
         try:
             sessions = _get_sessions(srv)
             for sess in sessions:
-                nb_path = _get_nb_path(sess)
+                nb_path = _get_nb_path(sess, kernel_id)
                 if nb_path:
                     return ntpath.basename(nb_path).replace('.ipynb', '')
         except:
@@ -66,7 +66,7 @@ def path():
         try:
             sessions = _get_sessions(srv)
             for sess in sessions:
-                nb_path = _get_nb_path(sess)
+                nb_path = _get_nb_path(sess, kernel_id)
                 if nb_path:
                     return os.path.join(srv['notebook_dir'], nb_path)
         except:
