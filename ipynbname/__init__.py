@@ -44,7 +44,7 @@ def name():
     """ Returns the short name of the notebook w/o the .ipynb extension,
         or raises a FileNotFoundError exception if it cannot be determined.     
     """
-    connection_file, kernel_id = _get_kernel_id()
+    kernel_id = _get_kernel_id()
     for srv in notebookapp.list_running_servers():
         try:
             sessions = _get_sessions(srv)
@@ -61,7 +61,7 @@ def path():
     """ Returns the absolute path of the notebook,
         or raises a FileNotFoundError exception if it cannot be determined.
     """
-    connection_file, kernel_id = _get_kernel_id()
+    kernel_id = _get_kernel_id()
     for srv in notebookapp.list_running_servers():
         try:
             sessions = _get_sessions(srv)
