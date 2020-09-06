@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), 'r') as f:
 
 setuptools.setup(
     name='ipynbname',
-    version='2020.2',
+    version='2020.2.01',
     author='Mark McPherson',
     author_email='msm1089@yahoo.co.uk',
     description='Simply returns either notebook filename or the full path to the notebook when run from Jupyter notebook in browser.',
