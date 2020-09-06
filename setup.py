@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), 'r') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name='mynameis',
+    name='ipynbname',
     version='2020.1',
     author='Mark McPherson',
     author_email='msm1089@yahoo.co.uk',
@@ -16,7 +16,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     license='MIT',
     keywords='jupyter notebook filename'.split(),
-    url='https://github.com/msm1089/mynameis',
+    url='https://github.com/msm1089/ipynbname',
     packages=setuptools.find_packages(),
     package_data={},
     install_requires=[],

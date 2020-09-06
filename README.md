@@ -1,4 +1,4 @@
-# mynameis
+# ipynbname
 
 When run in a Jupyter notebook, simply returns the notebook filename or the full path to the notebook.
 
@@ -7,15 +7,15 @@ When run in a Jupyter notebook, simply returns the notebook filename or the full
 Get the notebook name:
 
 ```python
-import mynameis
-nb_fname = mynameis.what()
+import ipynbname
+nb_fname = ipynbname.name()
 ```
 
 Get the full path to the notebook:
 
 ```python
-import mynameis
-nb_path = mynameis.what(path=True)
+import ipynbname
+nb_path = ipynbname.path()
 ```
 
 You would think there was already some built-in way to access the current notebook name, but it took many hours
