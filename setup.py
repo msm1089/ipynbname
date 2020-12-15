@@ -1,10 +1,8 @@
 import setuptools
+from pathlib import Path
 
-# read the contents of your README file
-from os import path
-this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md'), 'r') as f:
-    long_description = f.read()
+here = Path(__file__).parent
+long_description = (here / 'README.md').read_text()
 
 setuptools.setup(
     name='ipynbname',
@@ -19,7 +17,7 @@ setuptools.setup(
     url='https://github.com/msm1089/ipynbname',
     packages=setuptools.find_packages(),
     package_data={},
-    install_requires=[],
+    install_requires=['ipykernel'],
     python_requires='>=3.4, <4',
     classifiers=[
         'Operating System :: OS Independent',
