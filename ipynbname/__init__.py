@@ -14,8 +14,8 @@ CONN_ERROR = "Unable to access server;\n" \
            + "ipynbname requires either no security or token based security."
 
 
-def _list_maybe_running_servers(runtime_dir=None) -> Generator[dict]:
-    """Iterate over the server info files of running notebook servers.
+def _list_maybe_running_servers(runtime_dir=None) -> Generator[dict, None, None]:
+    """ Iterate over the server info files of running notebook servers.
     """
     if runtime_dir is None:
         runtime_dir = jupyter_runtime_dir()
