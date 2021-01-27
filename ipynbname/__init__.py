@@ -1,6 +1,7 @@
 import json
 import urllib.error
 import urllib.request
+from itertools import chain
 from pathlib import Path, PurePath
 from typing import Generator, Tuple, Union
 
@@ -22,7 +23,10 @@ def _list_maybe_running_servers(runtime_dir=None) -> Generator[dict, None, None]
     runtime_dir = Path(runtime_dir)
 
     if runtime_dir.is_dir():
-        for file_name in runtime_dir.glob('nbserver-*.json'):
+        for file_name in chain(
+            runtime_dir.glob('nbserver-*.json'),  # jupyter notebook (or lab 2)
+            runtime_dir.glob('jpserver-*.json'),  # jupyterlab 3
+        ):
             yield json.loads(file_name.read_bytes())
 
 
@@ -84,5 +88,6 @@ def path() -> Path:
     """
     srv, path = _find_nb_path()
     if srv and path:
-        return Path(srv['notebook_dir']) / path
+        root_dir = Path(srv.get('root_dir') or srv['notebook_dir'])
+        return root_dir / path
     raise FileNotFoundError(FILE_ERROR.format('path'))
