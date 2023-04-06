@@ -1,4 +1,5 @@
 import json
+import os
 import urllib.error
 import urllib.request
 from itertools import chain
@@ -41,7 +42,7 @@ def _get_kernel_id() -> str:
 def _get_sessions(srv):
     """ Given a server, returns sessions, or HTTPError if access is denied.
         NOTE: Works only when either there is no security or there is token
-        based security. An HTTPError is raised if unable to connect to a 
+        based security. An HTTPError is raised if unable to connect to a
         server.
     """
     try:
@@ -49,6 +50,8 @@ def _get_sessions(srv):
         token = srv['token']
         if token:
             qry_str = f"?token={token}"
+        if not token and "JUPYTERHUB_API_TOKEN" in os.environ:
+            token = os.environ["JUPYTERHUB_API_TOKEN"]
         url = f"{srv['url']}api/sessions{qry_str}"
         with urllib.request.urlopen(url) as req:
             return json.load(req)
