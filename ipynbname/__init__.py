@@ -1,3 +1,4 @@
+import os
 import json
 import urllib.error
 import urllib.request
@@ -23,11 +24,20 @@ def _list_maybe_running_servers(runtime_dir=None) -> Generator[dict, None, None]
     runtime_dir = Path(runtime_dir)
 
     if runtime_dir.is_dir():
-        for file_name in chain(
-            runtime_dir.glob('nbserver-*.json'),  # jupyter notebook (or lab 2)
-            runtime_dir.glob('jpserver-*.json'),  # jupyterlab 3
+        # Get notebook configuration files, sorted to check the more recently modified ones first
+        for file_name in sorted(
+            chain(
+                runtime_dir.glob('nbserver-*.json'),  # jupyter notebook (or lab 2)
+                runtime_dir.glob('jpserver-*.json'),  # jupyterlab 3
+            ),
+            key=os.path.getmtime,
+            reverse=True,
         ):
-            yield json.loads(file_name.read_bytes())
+            try:
+                yield json.loads(file_name.read_bytes())
+            except json.JSONDecodeError as err:
+                # Sometimes we encounter empty JSON files. Ignore them.
+                pass
 
 
 def _get_kernel_id() -> str:
@@ -50,7 +60,8 @@ def _get_sessions(srv):
         if token:
             qry_str = f"?token={token}"
         url = f"{srv['url']}api/sessions{qry_str}"
-        with urllib.request.urlopen(url) as req:
+        # Use a timeout in case this is a stale entry.
+        with urllib.request.urlopen(url, timeout=0.5) as req:
             return json.load(req)
     except Exception:
         raise urllib.error.HTTPError(CONN_ERROR)
