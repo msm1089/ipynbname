@@ -6,10 +6,10 @@ long_description = (here / 'README.md').read_text()
 
 setuptools.setup(
     name='ipynbname',
-    version='2021.3.2',
+    version='2023.1.0',
     author='Mark McPherson',
     author_email='msm1089@yahoo.co.uk',
-    description='Simply returns either notebook filename or the full path to the notebook when run from Jupyter notebook in browser.',
+    description='Simply returns either notebook filename or the full path to the notebook when run from Jupyter notebook or Jupter Lab in browser.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
