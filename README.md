@@ -25,3 +25,8 @@ Get the full path to the notebook:
 import ipynbname
 nb_path = ipynbname.path()
 ```
+## Limitations
+
+Note that this only reliably works when running a notebook in a browser. So it does not currently work for things like nbconvert or papermill.
+
+For VS Code there is a [workaround](https://github.com/msm1089/ipynbname/issues/17#issuecomment-1293269863).
