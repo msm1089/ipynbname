@@ -18,7 +18,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={},
     install_requires=['ipykernel'],
-    python_requires='>=3.4, <4',
+    python_requires='>=3.4',
     classifiers=[
         'Operating System :: OS Independent',
         'Development Status :: 4 - Beta',
