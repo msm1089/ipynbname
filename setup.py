@@ -6,7 +6,7 @@ long_description = (here / 'README.md').read_text()
 
 setuptools.setup(
     name='ipynbname',
-    version='2023.1.0.0',
+    version='2023.2.0.0',
     author='Mark McPherson',
     author_email='msm1089@yahoo.co.uk',
     description='Simply returns either notebook filename or the full path to the notebook when run from Jupyter notebook in browser.',
