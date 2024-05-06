@@ -80,7 +80,7 @@ def _find_nb_path() -> Union[Tuple[dict, PurePath], Tuple[None, None]]:
             sessions = _get_sessions(srv)
             for sess in sessions:
                 if sess['kernel']['id'] == kernel_id:
-                    return srv, PurePath(sess['notebook']['path'] if "notebook" in sess else sess['path'])
+                    return srv, PurePath(sess['path'])
         except Exception:
             pass  # There may be stale entries in the runtime directory
     return None, None
