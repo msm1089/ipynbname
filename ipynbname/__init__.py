@@ -58,10 +58,9 @@ def _get_sessions(srv):
     try:
         qry_str = ""
         token = srv['token']
-        if token:
-            qry_str = f"?token={token}"
         if not token and "JUPYTERHUB_API_TOKEN" in os.environ:
             token = os.environ["JUPYTERHUB_API_TOKEN"]
+        qry_str = f"?token={token}" if token else ""
         url = f"{srv['url']}api/sessions{qry_str}"
         # Use a timeout in case this is a stale entry.
         with urllib.request.urlopen(url, timeout=0.5) as req:
@@ -80,7 +79,7 @@ def _find_nb_path() -> Union[Tuple[dict, PurePath], Tuple[None, None]]:
             sessions = _get_sessions(srv)
             for sess in sessions:
                 if sess['kernel']['id'] == kernel_id:
-                    return srv, PurePath(sess['notebook']['path'])
+                    return srv, PurePath(sess['path'])
         except Exception:
             pass  # There may be stale entries in the runtime directory
     return None, None
