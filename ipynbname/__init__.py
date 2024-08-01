@@ -1,6 +1,6 @@
 import os
 import json
-import os
+import os.path
 import urllib.error
 import urllib.request
 from itertools import chain
@@ -10,6 +10,7 @@ from typing import Generator, Tuple, Union
 import ipykernel
 from jupyter_core.paths import jupyter_runtime_dir
 from traitlets.config import MultipleInstanceError
+from IPython import get_ipython
 
 
 FILE_ERROR = "Can't identify the notebook {}."
@@ -89,6 +90,9 @@ def name() -> str:
     """ Returns the short name of the notebook w/o the .ipynb extension,
         or raises a FileNotFoundError exception if it cannot be determined.
     """
+    ip = get_ipython()
+    if '__vsc_ipynb_file__' in ip.user_ns:
+        return os.path.basename(ip.user_ns['__vsc_ipynb_file__'])
     _, path = _find_nb_path()
     if path:
         return path.stem
@@ -99,6 +103,9 @@ def path() -> Path:
     """ Returns the absolute path of the notebook,
         or raises a FileNotFoundError exception if it cannot be determined.
     """
+    ip = get_ipython()
+    if '__vsc_ipynb_file__' in ip.user_ns:
+        return Path(ip.user_ns['__vsc_ipynb_file__'])
     srv, path = _find_nb_path()
     if srv and path:
         root_dir = Path(srv.get('root_dir') or srv['notebook_dir'])
