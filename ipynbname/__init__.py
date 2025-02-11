@@ -92,7 +92,7 @@ def name() -> str:
     """
     ip = get_ipython()
     if '__vsc_ipynb_file__' in ip.user_ns:
-        return os.path.basename(ip.user_ns['__vsc_ipynb_file__'])
+        return PurePath(ip.user_ns['__vsc_ipynb_file__']).stem
     _, path = _find_nb_path()
     if path:
         return path.stem
@@ -105,7 +105,7 @@ def path() -> Path:
     """
     ip = get_ipython()
     if '__vsc_ipynb_file__' in ip.user_ns:
-        return Path(ip.user_ns['__vsc_ipynb_file__'])
+        return PurePath(ip.user_ns['__vsc_ipynb_file__'])
     srv, path = _find_nb_path()
     if srv and path:
         root_dir = Path(srv.get('root_dir') or srv['notebook_dir'])
