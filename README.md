@@ -27,6 +27,4 @@ nb_path = ipynbname.path()
 ```
 ## Limitations
 
-Note that this only reliably works when running a notebook in a browser. So it does not currently work for things like nbconvert or papermill.
-
-For VS Code there is a [workaround](https://github.com/msm1089/ipynbname/issues/17#issuecomment-1293269863).
+Note that this only reliably works when running a notebook in a browser or in VS Code. So it does not currently work for things like nbconvert or papermill. Environments with a jupyter server password set may not work.
