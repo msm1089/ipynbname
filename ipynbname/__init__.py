@@ -58,10 +58,9 @@ def _get_sessions(srv):
     try:
         qry_str = ""
         token = srv['token']
-        if token:
-            qry_str = f"?token={token}"
         if not token and "JUPYTERHUB_API_TOKEN" in os.environ:
             token = os.environ["JUPYTERHUB_API_TOKEN"]
+        qry_str = f"?token={token}" if token else ""
         url = f"{srv['url']}api/sessions{qry_str}"
         # Use a timeout in case this is a stale entry.
         with urllib.request.urlopen(url, timeout=0.5) as req:
