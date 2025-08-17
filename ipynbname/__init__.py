@@ -1,11 +1,11 @@
 import os
 import json
-import os
 import urllib.error
 import urllib.request
 from itertools import chain
 from pathlib import Path, PurePath
 from typing import Generator, Tuple, Union
+from IPython import get_ipython
 
 import ipykernel
 from jupyter_core.paths import jupyter_runtime_dir
@@ -46,6 +46,7 @@ def _get_kernel_id() -> str:
     """
     connection_file = Path(ipykernel.get_connection_file()).stem
     kernel_id = connection_file.split('-', 1)[1]
+
     return kernel_id
 
 
@@ -70,10 +71,16 @@ def _get_sessions(srv):
 
 
 def _find_nb_path() -> Union[Tuple[dict, PurePath], Tuple[None, None]]:
+    # Handle VS Code notebooks
+    ip = get_ipython()
+    if '__vsc_ipynb_file__' in ip.user_ns:
+        return None, PurePath(ip.user_ns['__vsc_ipynb_file__'])
+
     try:
         kernel_id = _get_kernel_id()
     except (MultipleInstanceError, RuntimeError):
         return None, None  # Could not determine
+    
     for srv in _list_maybe_running_servers():
         try:
             sessions = _get_sessions(srv)
@@ -82,6 +89,7 @@ def _find_nb_path() -> Union[Tuple[dict, PurePath], Tuple[None, None]]:
                     return srv, PurePath(sess['path'])
         except Exception:
             pass  # There may be stale entries in the runtime directory
+    
     return None, None
 
 
@@ -92,6 +100,7 @@ def name() -> str:
     _, path = _find_nb_path()
     if path:
         return path.stem
+    
     raise FileNotFoundError(FILE_ERROR.format('name'))
 
 
@@ -100,7 +109,12 @@ def path() -> Path:
         or raises a FileNotFoundError exception if it cannot be determined.
     """
     srv, path = _find_nb_path()
+
     if srv and path:
         root_dir = Path(srv.get('root_dir') or srv['notebook_dir'])
         return root_dir / path
+    
+    if path:
+        return path
+    
     raise FileNotFoundError(FILE_ERROR.format('path'))
